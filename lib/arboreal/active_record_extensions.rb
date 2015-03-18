@@ -23,8 +23,8 @@ module Arboreal
 
       case ActiveRecord::VERSION::MAJOR
 
-      when 3
-        scope :roots, where(:parent_id => nil)
+      when 3, 4
+        scope :roots, -> { where(:parent_id => nil) }
 
       when 2
         named_scope :roots, {
