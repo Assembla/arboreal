@@ -21,18 +21,13 @@ module Arboreal
       before_save :detect_ancestry_change
       after_save  :apply_ancestry_change_to_descendants
 
-      case ActiveRecord::VERSION::MAJOR
-
-      when 3, 4
-        scope :roots, -> { where(:parent_id => nil) }
-
-      when 2
+      if ActiveRecord::VERSION::MAJOR == 2
         named_scope :roots, {
           :conditions => ["parent_id IS NULL"]
         }
-
+      else
+        scope :roots, -> { where(:parent_id => nil) }
       end
-
     end
 
   end
